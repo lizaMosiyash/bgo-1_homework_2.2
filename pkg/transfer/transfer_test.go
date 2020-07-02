@@ -9,6 +9,13 @@ func TestService_Card2Card(t *testing.T) {
 	cardSvc := card.NewService("TestBank")
 	cardSvc.IssueCard("111111", 555500)
 	cardSvc.IssueCard("222222", 30000)
+	cardSvc.IssueCard("333333", 555500)
+	cardSvc.IssueCard("444444", 30000)
+	cardSvc.IssueCard("555555", 555500)
+	cardSvc.IssueCard("000000", 30000)
+	cardSvc.IssueCard("777777", 555500)
+	cardSvc.IssueCard("888888", 30000)
+	cardSvc.IssueCard("999999", 555500)
 	println(cardSvc)
 
 	type fields struct {
@@ -30,7 +37,11 @@ func TestService_Card2Card(t *testing.T) {
 	}{
 		{
 			name:      "myBank=>myBank,ok",
-			fields:    fields{},
+			fields:    fields{
+				CardSvc:      cardSvc,
+				Comission:    5,
+				MinComission: 1000,
+			},
 			args:      args{
 				from:   cardSvc.Cards[0].Number,
 				to:     cardSvc.Cards[1].Number,
@@ -41,10 +52,14 @@ func TestService_Card2Card(t *testing.T) {
 		},
 		{
 			name:      "myBank=>MyBank,notOk",
-			fields:    fields{},
+			fields:    fields{
+				CardSvc:      cardSvc,
+				Comission:    5,
+				MinComission: 1000,
+			},
 			args:      args{
-				from:   "222222",
-				to:     "111111",
+				from:   cardSvc.Cards[3].Number,
+				to:     cardSvc.Cards[2].Number,
 				amount: 1000,
 			},
 			wantTotal: 101000,
@@ -52,9 +67,13 @@ func TestService_Card2Card(t *testing.T) {
 		},
 		{
 			name:      "myBank=>notMyBank,ok",
-			fields:    fields{},
+			fields:    fields{
+				CardSvc:      cardSvc,
+				Comission:    5,
+				MinComission: 1000,
+			},
 			args:      args{
-				from:   "111111",
+				from:   cardSvc.Cards[4].Number,
 				to:     "333",
 				amount: 1000,
 			},
@@ -63,9 +82,13 @@ func TestService_Card2Card(t *testing.T) {
 		},
 		{
 			name:      "myBank=>notMyBank,notOk",
-			fields:    fields{},
+			fields:    fields{
+				CardSvc:      cardSvc,
+				Comission:    5,
+				MinComission: 1000,
+			},
 			args:      args{
-				from:   "222222",
+				from:   cardSvc.Cards[5].Number,
 				to:     "333",
 				amount: 1000,
 			},
@@ -74,10 +97,14 @@ func TestService_Card2Card(t *testing.T) {
 		},
 		{
 			name:      "notMyBank=>myBank",
-			fields:    fields{},
+			fields:    fields{
+				CardSvc:      cardSvc,
+				Comission:    5,
+				MinComission: 1000,
+			},
 			args:      args{
 				from:   "333",
-				to:     "111111",
+				to:     cardSvc.Cards[6].Number,
 				amount: 1000,
 			},
 			wantTotal: 101000,
@@ -85,7 +112,11 @@ func TestService_Card2Card(t *testing.T) {
 		},
 		{
 			name:      "notMyBank=>notMyBank",
-			fields:    fields{},
+			fields:    fields{
+				CardSvc:      cardSvc,
+				Comission:    5,
+				MinComission: 1000,
+			},
 			args:      args{
 				from:   "333",
 				to:     "3333",
