@@ -93,7 +93,7 @@ func TestService_Card2Card(t *testing.T) {
 				amount: 1000,
 			},
 			wantTotal: 101000,
-			wantOk:    false,
+			wantOk:    true,
 		},
 		{
 			name:      "notMyBank=>myBank",
