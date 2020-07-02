@@ -1,15 +1,15 @@
 package card
 
-type Card struct{
+type Card struct {
 	BankName string
-	Number string
-	Balance int64
+	Number   string
+	Balance  int64
 	Currency string
 }
 
-type Service struct{
+type Service struct {
 	BankName string
-	Cards []*Card
+	Cards    []*Card
 }
 
 func (s *Service) IssueCard(number string, balance int64) *Card {
@@ -27,4 +27,3 @@ func (s *Service) IssueCard(number string, balance int64) *Card {
 func NewService(bankName string) *Service {
 	return &Service{BankName: bankName}
 }
-
