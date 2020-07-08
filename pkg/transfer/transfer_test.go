@@ -33,21 +33,6 @@ func TestService_Card2Card(t *testing.T) {
 		wantErr   bool
 	}{
 		{
-			name:      "CardNotFound",
-			fields:    fields{
-				CardSvc:      cardSvc,
-				Comission:    5,
-				MinComission: 1000,
-			},
-			args:      args{
-				from:   cardSvc.Cards[0].Number,
-				to:     cardSvc.Cards[1].Number,
-				amount: 100,
-			},
-			wantTotal: 11000,
-			wantErr:   false,
-		},
-		{
 			name:      "LowBalance",
 			fields:    fields{
 				CardSvc:      cardSvc,
