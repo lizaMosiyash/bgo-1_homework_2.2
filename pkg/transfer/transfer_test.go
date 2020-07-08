@@ -6,6 +6,13 @@ import (
 )
 
 func TestService_Card2Card(t *testing.T) {
+	cardSvc := card.NewService("Test_Bank")
+	cardSvc.IssueCard("5106210", 50000)
+	cardSvc.IssueCard("111111", 10000)
+	cardSvc.IssueCard("222222", 5000)
+	cardSvc.IssueCard("5106211", 5000)
+
+
 	type fields struct {
 		CardSvc      *card.Service
 		Comission    int64
@@ -23,7 +30,36 @@ func TestService_Card2Card(t *testing.T) {
 		wantTotal int64
 		wantErr   bool
 	}{
-		// TODO: Add test cases.
+		{
+			name:      "CardNotFound",
+			fields:    fields{
+				CardSvc:      cardSvc,
+				Comission:    5,
+				MinComission: 1000,
+			},
+			args:      args{
+				from:   cardSvc.Cards[0].Number,
+				to:     cardSvc.Cards[1].Number,
+				amount: 100,
+			},
+			wantTotal: 11000,
+			wantErr:   false,
+		},
+		{
+			name:      "LowBalance",
+			fields:    fields{
+				CardSvc:      cardSvc,
+				Comission:    5,
+				MinComission: 1000,
+			},
+			args:      args{
+				from:   cardSvc.Cards[2].Number,
+				to:     cardSvc.Cards[3].Number,
+				amount: 100,
+			},
+			wantTotal: 11000,
+			wantErr:   true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
