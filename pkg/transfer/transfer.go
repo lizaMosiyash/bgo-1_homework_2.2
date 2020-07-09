@@ -72,7 +72,7 @@ func (s *Service) SearchByNumber(number string) *card.Card {
 	return nil
 }
 
-func (s *Service) CheckBalance(number string, sum int64) error {
+func (s *Service) ReduceBalance (number string, sum int64) error {
 	c := s.SearchByNumber(number)
 	if c.Balance < sum {
 		return ErrLowBalance
